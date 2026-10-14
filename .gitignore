@@ -244,3 +244,8 @@ manifest.json
 wandb/
 onelogger.err
 onelogger.log
+
+# Local profiler traces and diagnostic entry points
+benchmark_results/**/*.trace.json
+benchmark_results/**/*.trace.json.gz
+benchmark_results/debug_gate.py
