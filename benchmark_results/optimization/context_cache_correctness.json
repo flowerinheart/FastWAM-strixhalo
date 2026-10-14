@@ -1,0 +1,17 @@
+[
+  {
+    "seed": 42,
+    "prompt": "pick up the object",
+    "max_abs_error": 0.0
+  },
+  {
+    "seed": 13,
+    "prompt": "place the cup on the table",
+    "max_abs_error": 0.0
+  },
+  {
+    "seed": 71,
+    "prompt": "open the drawer",
+    "max_abs_error": 0.0
+  }
+]

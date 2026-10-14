@@ -33,6 +33,7 @@ def _dryrun_config(cfg: DictConfig) -> DictConfig:
             "action_horizon": None,
             "num_inference_steps": None,
             "compile_action_infer": False,
+            "cache_action_context": True,
             "benchmark_both": False,
             "use_random_context": False,
             "action_infer_mode": "idm",
@@ -154,6 +155,8 @@ def main(cfg: DictConfig) -> None:
         "compile_action_infer": bool(dryrun.compile_action_infer),
     }
     infer_parameters = inspect.signature(model.infer_action).parameters
+    if "cache_action_context" in infer_parameters:
+        infer_kwargs["cache_action_context"] = bool(dryrun.cache_action_context)
     if "num_video_frames" in infer_parameters:
         infer_kwargs["num_video_frames"] = (
             (int(cfg.data.train.num_frames) - 1)

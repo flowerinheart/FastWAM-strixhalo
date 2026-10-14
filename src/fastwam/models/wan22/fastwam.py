@@ -709,6 +709,8 @@ class FastWAM(torch.nn.Module):
         video_cache_k: list[torch.Tensor],
         video_cache_v: list[torch.Tensor],
         action_attention_mask: torch.Tensor,
+        prepared_action_context=None,
+        action_context_kv=None,
     ) -> torch.Tensor:
         (
             action_tokens,
@@ -722,6 +724,7 @@ class FastWAM(torch.nn.Module):
             timestep=timestep_action,
             context=context,
             context_mask=context_mask,
+            prepared_context=prepared_action_context,
         )
         action_tokens = self.mot.forward_action_with_video_cache_tensor(
             action_tokens=action_tokens,
@@ -732,6 +735,7 @@ class FastWAM(torch.nn.Module):
             video_cache_k=video_cache_k,
             video_cache_v=video_cache_v,
             action_attention_mask=action_attention_mask,
+            action_context_kv=action_context_kv,
         )
         return self.action_expert.post(action_tokens)
 
@@ -992,6 +996,7 @@ class FastWAM(torch.nn.Module):
         rand_device: str = "cpu",
         tiled: bool = False,
         compile_action_infer: bool = False,
+        cache_action_context: bool = True,
     ) -> dict[str, Any]:
         self.eval()
         if str(getattr(self.video_expert, "video_attention_mask_mode", "")) != "first_frame_causal":
@@ -1130,6 +1135,16 @@ class FastWAM(torch.nn.Module):
             video_cache_k = [cache.clone() for cache in video_cache_k]
             video_cache_v = [cache.clone() for cache in video_cache_v]
 
+        # Context includes the current proprio and is valid only within this call.
+        prepared_action_context = None
+        action_context_kv = None
+        if cache_action_context:
+            prepared_action_context = self.action_expert.text_embedding(context)
+            action_context_kv = [
+                block.cross_attn.project_context(prepared_action_context)
+                for block in self.action_expert.blocks
+            ]
+
         infer_timesteps_action, infer_deltas_action = self.infer_action_scheduler.build_inference_schedule(
             num_inference_steps=num_inference_steps,
             device=self.device,
@@ -1149,6 +1164,8 @@ class FastWAM(torch.nn.Module):
                 video_cache_k=video_cache_k,
                 video_cache_v=video_cache_v,
                 action_attention_mask=action_attention_mask,
+                prepared_action_context=prepared_action_context,
+                action_context_kv=action_context_kv,
             )
             pred_action = pred_action_posi
 

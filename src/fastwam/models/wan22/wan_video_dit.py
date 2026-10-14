@@ -211,10 +211,12 @@ class CrossAttention(nn.Module):
             
         # self.attn = AttentionModule(self.num_heads)
 
-    def forward(self, x: torch.Tensor, ctx: torch.Tensor, ctx_mask: Optional[torch.Tensor] = None):
+    def project_context(self, ctx: torch.Tensor):
+        return self.norm_k(self.k(ctx)), self.v(ctx)
+
+    def forward(self, x: torch.Tensor, ctx: torch.Tensor, ctx_mask: Optional[torch.Tensor] = None, context_kv=None):
         q = self.norm_q(self.q(x))
-        k = self.norm_k(self.k(ctx))
-        v = self.v(ctx)
+        k, v = self.project_context(ctx) if context_kv is None else context_kv
         x = flash_attention(q=q, k=k, v=v, num_heads=self.num_heads, ctx_mask=ctx_mask)
         return self.o(x)
 

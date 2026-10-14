@@ -1,0 +1,30 @@
+{
+  "unprofiled_ms": [
+    396.53243200154975,
+    386.7907949606888,
+    390.50147199304774,
+    399.478450010065,
+    410.28839600039646
+  ],
+  "unprofiled_median_ms": 396.53243200154975,
+  "unprofiled_mean_ms": 396.71830899314955,
+  "profiled_ms": 427.4434359977022,
+  "peak_allocated_GiB": 23.324506282806396,
+  "action_shape": [
+    32,
+    7
+  ],
+  "action_finite": true,
+  "gpu": "AMD Radeon 8060S Graphics",
+  "torch": "2.15.0a0+rocm10.1.0a20260902",
+  "hip": "7.16.26351",
+  "sdpa": "math",
+  "dtype": "bf16",
+  "warmup": 3,
+  "profile_iterations": 1,
+  "denoise_steps": 10,
+  "compile": true,
+  "cache_action_context": true,
+  "record_shapes": true,
+  "profile_memory": true
+}

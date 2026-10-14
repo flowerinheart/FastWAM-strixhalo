@@ -1,0 +1,38 @@
+{
+  "method": "GPU kernels attributed by External id to CPU op and enclosing CPU record_function range; summed kernel durations, excluding annotation spans",
+  "stages": [
+    {
+      "stage": "FastWAM/action_denoise_step",
+      "gpu_ms": 323.193682999997,
+      "kernels": 31410,
+      "percent": 61.891437577377545
+    },
+    {
+      "stage": "FastWAM/text_encoding",
+      "gpu_ms": 84.33979499999998,
+      "kernels": 1600,
+      "percent": 16.151030889831365
+    },
+    {
+      "stage": "FastWAM/video_cache_prefill",
+      "gpu_ms": 83.37032000000012,
+      "kernels": 3060,
+      "percent": 15.965376885432647
+    },
+    {
+      "stage": "FastWAM/vae_encoding",
+      "gpu_ms": 29.873571,
+      "kernels": 438,
+      "percent": 5.720774730488384
+    },
+    {
+      "stage": "other",
+      "gpu_ms": 1.4171309999999997,
+      "kernels": 69,
+      "percent": 0.2713799168700566
+    }
+  ],
+  "hot_addmm_stage_ms": {
+    "FastWAM/action_denoise_step": 102.51777599999997
+  }
+}

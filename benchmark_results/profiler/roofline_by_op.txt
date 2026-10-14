@@ -1,0 +1,593 @@
+GPU: Radeon 8060S (Strix Halo) (gfx1151) [--gpu override]
+Skipping 107197 CPU-only ops (no GPU kernels).
+Using filters "ATTN,CONV,DEFORM_ATTN,EW,GEMM,MOEGEMM,RED": showing 29126 kernels (500.39 ms / 95.8%), hiding 7451 kernels (21.81 ms / 4.2%)
+Hiding 266 op groups (14350 instances) below 0.3% of total GPU time (1.50 ms). Use --min-pct 0 to show all.
+Ordering by GPU time recoverable at 80.0% of roofline (166.28 ms across 38 op groups).
+[GEMM]    aten::addmm  ×600  GPU: 102.52 ms all (19.6%), 170.86 µs/instance (0.0%)  gain@80%: 80.18 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT128x64x32_MI16x16x1_SN_LDSB0_A...   170.86 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[129, 1024]
+                │  ├─ B [K,N]: bfloat16[1024, 3072]
+                │  ├─ bias: bfloat16[3072]
+                │  ├─ beta: 1
+                │  ├─ alpha: 1
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 811.99 MFLOP  = 2·M·N·K + M·N = 2·129·3072·1024 + 129·3072
+                   ├─ Bytes: 7.01 MiB  = (bias + A + B + C)·2B = (3072 + 129·1024 + 1024·3072 + 129·3072)·2
+                   ├─ AI: 110.41 FLOP/B
+                   ├─ Achieved: 4.78 TFLOPS
+                   ├─ BW: 40.3 GiB/s
+                   ├─ Peak: 17.5% (memory-bound)
+                   ├─ Roofline time: 29.94 µs/instance, 17.87 ms total
+                   └─ (averaged over 600 instances)
+[GEMM]    aten::mm  ×96  GPU: 28.33 ms all (5.4%), 295.15 µs/instance (0.1%)  gain@80%: 11.01 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT48x64x64_MI16x16x1_SN_LDSB0_AF...   295.15 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[128, 4096]
+                │  ├─ B [K,N]: bfloat16[4096, 4096]
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 4.29 GFLOP  = 2·M·N·K = 2·128·4096·4096
+                   ├─ Bytes: 34.00 MiB  = (M·K + K·N + M·N)·2B = (128·4096 + 4096·4096 + 128·4096)·2
+                   ├─ AI: 120.47 FLOP/B
+                   ├─ Achieved: 14.62 TFLOPS
+                   ├─ BW: 113.0 GiB/s
+                   ├─ Peak: 49.1% (memory-bound)
+                   ├─ Roofline time: 145.01 µs/instance, 13.86 ms total
+                   └─ (averaged over 96 instances)
+[GEMM]    aten::addmm  ×1200  GPU: 47.08 ms all (9.0%), 39.23 µs/instance (0.0%)  gain@80%: 7.27 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT32x32x64_MI16x16x1_SN_LDSB1_AF...    39.23 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[32, 1024]
+                │  ├─ B [K,N]: bfloat16[1024, 3072]
+                │  ├─ bias: bfloat16[3072]
+                │  ├─ beta: 1
+                │  ├─ alpha: 1
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 201.42 MFLOP  = 2·M·N·K + M·N = 2·32·3072·1024 + 32·3072
+                   ├─ Bytes: 6.26 MiB  = (bias + A + B + C)·2B = (3072 + 32·1024 + 1024·3072 + 32·3072)·2
+                   ├─ AI: 30.71 FLOP/B
+                   ├─ Achieved: 5.19 TFLOPS
+                   ├─ BW: 157.4 GiB/s
+                   ├─ Peak: 68.4% (memory-bound)
+                   ├─ Roofline time: 26.85 µs/instance, 31.87 ms total
+                   └─ (averaged over 1200 instances)
+[GEMM]    aten::mm  ×24  GPU: 17.55 ms all (3.4%), 731.26 µs/instance (0.1%)  gain@80%: 6.91 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT48x64x64_MI16x16x1_SN_LDSB0_AF...   731.26 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[128, 10240]
+                │  ├─ B [K,N]: bfloat16[10240, 4096]
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 10.74 GFLOP  = 2·M·N·K = 2·128·4096·10240
+                   ├─ Bytes: 83.50 MiB  = (M·K + K·N + M·N)·2B = (128·10240 + 10240·4096 + 128·4096)·2
+                   ├─ AI: 122.63 FLOP/B
+                   ├─ Achieved: 14.71 TFLOPS
+                   ├─ BW: 111.7 GiB/s
+                   ├─ Peak: 48.6% (memory-bound)
+                   ├─ Roofline time: 355.10 µs/instance, 8.51 ms total
+                   └─ (averaged over 24 instances)
+[GEMM]    aten::mm  ×48  GPU: 27.51 ms all (5.3%), 573.16 µs/instance (0.1%)  gain@80%: 6.24 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT32x64x64_MI16x16x1_SN_LDSB0_AF...   573.16 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[128, 4096]
+                │  ├─ B [K,N]: bfloat16[4096, 10240]
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 10.74 GFLOP  = 2·M·N·K = 2·128·10240·4096
+                   ├─ Bytes: 83.50 MiB  = (M·K + K·N + M·N)·2B = (128·4096 + 4096·10240 + 128·10240)·2
+                   ├─ AI: 122.63 FLOP/B
+                   ├─ Achieved: 18.78 TFLOPS
+                   ├─ BW: 142.6 GiB/s
+                   ├─ Peak: 62.0% (memory-bound)
+                   ├─ Roofline time: 355.41 µs/instance, 17.02 ms total
+                   └─ (averaged over 48 instances)
+[GEMM]    aten::addmm  ×30  GPU: 19.47 ms all (3.7%), 649.00 µs/instance (0.1%)  gain@80%: 5.58 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT16x64x64_MI16x16x1_SN_LDSB0_AF...   649.00 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[98, 14336]
+                │  ├─ B [K,N]: bfloat16[14336, 3072]
+                │  ├─ bias: bfloat16[3072]
+                │  ├─ beta: 1
+                │  ├─ alpha: 1
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 8.63 GFLOP  = 2·M·N·K + M·N = 2·98·3072·14336 + 98·3072
+                   ├─ Bytes: 87.26 MiB  = (bias + A + B + C)·2B = (3072 + 98·14336 + 14336·3072 + 98·3072)·2
+                   ├─ AI: 94.34 FLOP/B
+                   ├─ Achieved: 13.31 TFLOPS
+                   ├─ BW: 131.4 GiB/s
+                   ├─ Peak: 57.1% (memory-bound)
+                   ├─ Roofline time: 370.64 µs/instance, 11.11 ms total
+                   └─ (averaged over 30 instances)
+[GEMM]    aten::bmm  ×300  GPU: 7.93 ms all (1.5%), 26.45 µs/instance (0.0%)  gain@80%: 4.30 ms
+    └─[GEMM]    Cijk_Ailk_Bljk_S_B_Bias_HA_S_SAV_UserArgs_MT40x64x16_SN_LDSB0_AFC1_AG0_AGGSUA...    26.45 µs avg
+                ├─ Cfg
+                │  ├─ A [B,M,K]: float[24, 32, 130]
+                │  ├─ B [B,K,N]: float[24, 130, 128]
+                │  └─ Layout: NN
+                └─ Roofline
+                   ├─ FLOPs: 25.56 MFLOP  = B·2·M·N·K = 24·2·32·128·130
+                   ├─ Bytes: 2.28 MiB  = B·(M·K + K·N + M·N)·4B = 24·(32·130 + 130·128 + 32·128)·4
+                   ├─ AI: 10.69 FLOP/B
+                   ├─ Achieved: 0.97 TFLOPS
+                   ├─ BW: 84.4 GiB/s
+                   ├─ Peak: 36.7% (memory-bound)
+                   ├─ Roofline time: 9.71 µs/instance, 2.90 ms total
+                   └─ (averaged over 300 instances)
+[RED]     aten::mean  ×900  GPU: 5.74 ms all (1.1%), 6.37 µs/instance (0.0%)  gain@80%: 3.95 ms
+    └─[RED]     void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native...     6.37 µs avg
+                ├─ Cfg
+                │  ├─ arg0: float[1, 32, 3072]
+                │  ├─ arg1: [-1]
+                │  └─ arg2: True
+                └─ Roofline
+                   ├─ FLOPs: 98.30 KFLOP  = N_in = 98304
+                   ├─ Bytes: 384.12 KiB  = (rd + wr)·4B = (1x32x3072 + 32)·4  [dim=2]
+                   ├─ AI: 0.25 FLOP/B
+                   ├─ Achieved: 0.02 TFLOPS
+                   ├─ BW: 58.8 GiB/s
+                   ├─ Peak: 25.5% (memory-bound)
+                   ├─ Roofline time: 1.63 µs/instance, 1.43 ms total
+                   └─ (averaged over 900 instances)
+[GEMM]    aten::bmm  ×300  GPU: 7.53 ms all (1.4%), 25.11 µs/instance (0.0%)  gain@80%: 3.93 ms
+    └─[GEMM]    Cijk_Ailk_Bljk_S_B_Bias_HA_S_SAV_UserArgs_MT40x64x16_SN_LDSB0_AFC1_AG0_AGGSUA...    25.11 µs avg
+                ├─ Cfg
+                │  ├─ A [B,M,K]: float[24, 32, 129]
+                │  ├─ B [B,K,N]: float[24, 129, 128]
+                │  └─ Layout: NN
+                └─ Roofline
+                   ├─ FLOPs: 25.36 MFLOP  = B·2·M·N·K = 24·2·32·128·129
+                   ├─ Bytes: 2.26 MiB  = B·(M·K + K·N + M·N)·4B = 24·(32·129 + 129·128 + 32·128)·4
+                   ├─ AI: 10.68 FLOP/B
+                   ├─ Achieved: 1.01 TFLOPS
+                   ├─ BW: 88.4 GiB/s
+                   ├─ Peak: 38.5% (memory-bound)
+                   ├─ Roofline time: 9.65 µs/instance, 2.88 ms total
+                   └─ (averaged over 300 instances)
+[GEMM]    aten::bmm  ×300  GPU: 7.40 ms all (1.4%), 24.65 µs/instance (0.0%)  gain@80%: 3.77 ms
+    └─[GEMM]    Cijk_Alik_Bljk_S_B_Bias_HA_S_SAV_UserArgs_MT64x64x16_SN_LDSB0_AFC1_AG0_AGGSUA...    24.65 µs avg
+                ├─ Cfg
+                │  ├─ A [B,M,K]: float[24, 32, 128]
+                │  ├─ B [B,K,N]: float[24, 128, 130]
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 25.56 MFLOP  = B·2·M·N·K = 24·2·32·130·128
+                   ├─ Bytes: 2.28 MiB  = B·(M·K + K·N + M·N)·4B = 24·(32·128 + 128·130 + 32·130)·4
+                   ├─ AI: 10.69 FLOP/B
+                   ├─ Achieved: 1.04 TFLOPS
+                   ├─ BW: 90.5 GiB/s
+                   ├─ Peak: 39.4% (memory-bound)
+                   ├─ Roofline time: 9.70 µs/instance, 2.90 ms total
+                   └─ (averaged over 300 instances)
+[GEMM]    aten::bmm  ×300  GPU: 7.28 ms all (1.4%), 24.27 µs/instance (0.0%)  gain@80%: 3.67 ms
+    └─[GEMM]    Cijk_Alik_Bljk_S_B_Bias_HA_S_SAV_UserArgs_MT64x64x16_SN_LDSB0_AFC1_AG0_AGGSUA...    24.27 µs avg
+                ├─ Cfg
+                │  ├─ A [B,M,K]: float[24, 32, 128]
+                │  ├─ B [B,K,N]: float[24, 128, 129]
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 25.36 MFLOP  = B·2·M·N·K = 24·2·32·129·128
+                   ├─ Bytes: 2.26 MiB  = B·(M·K + K·N + M·N)·4B = 24·(32·128 + 128·129 + 32·129)·4
+                   ├─ AI: 10.68 FLOP/B
+                   ├─ Achieved: 1.05 TFLOPS
+                   ├─ BW: 91.4 GiB/s
+                   ├─ Peak: 39.7% (memory-bound)
+                   ├─ Roofline time: 9.64 µs/instance, 2.88 ms total
+                   └─ (averaged over 300 instances)
+[GEMM]    aten::addmm  ×600  GPU: 23.06 ms all (4.4%), 38.43 µs/instance (0.0%)  gain@80%: 3.15 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT16x16x64_MI16x16x1_SN_LDSB0_AF...    38.43 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[32, 3072]
+                │  ├─ B [K,N]: bfloat16[3072, 1024]
+                │  ├─ bias: bfloat16[1024]
+                │  ├─ beta: 1
+                │  ├─ alpha: 1
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 201.36 MFLOP  = 2·M·N·K + M·N = 2·32·1024·3072 + 32·1024
+                   ├─ Bytes: 6.25 MiB  = (bias + A + B + C)·2B = (1024 + 32·3072 + 3072·1024 + 32·1024)·2
+                   ├─ AI: 30.72 FLOP/B
+                   ├─ Achieved: 5.25 TFLOPS
+                   ├─ BW: 159.2 GiB/s
+                   ├─ Peak: 69.2% (memory-bound)
+                   ├─ Roofline time: 26.59 µs/instance, 15.93 ms total
+                   └─ (averaged over 600 instances)
+[GEMM]    aten::addmm  ×181  GPU: 21.17 ms all (4.1%), 116.96 µs/instance (0.0%)  gain@80%: 2.77 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT32x64x64_MI16x16x1_SN_LDSB1_AF...   116.96 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[98, 3072]
+                │  ├─ B [K,N]: bfloat16[3072, 3072]
+                │  ├─ bias: bfloat16[3072]
+                │  ├─ beta: 1
+                │  ├─ alpha: 1
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 1.85 GFLOP  = 2·M·N·K + M·N = 2·98·3072·3072 + 98·3072
+                   ├─ Bytes: 19.15 MiB  = (bias + A + B + C)·2B = (3072 + 98·3072 + 3072·3072 + 98·3072)·2
+                   ├─ AI: 92.11 FLOP/B
+                   ├─ Achieved: 15.93 TFLOPS
+                   ├─ BW: 161.1 GiB/s
+                   ├─ Peak: 70.0% (memory-bound)
+                   ├─ Roofline time: 81.91 µs/instance, 14.72 ms total
+                   └─ (averaged over 181 instances)
+[GEMM]    aten::addmm  ×30  GPU: 16.66 ms all (3.2%), 555.45 µs/instance (0.1%)  gain@80%: 2.77 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT32x64x64_MI16x16x1_SN_LDSB0_AF...   555.45 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[98, 3072]
+                │  ├─ B [K,N]: bfloat16[3072, 14336]
+                │  ├─ bias: bfloat16[14336]
+                │  ├─ beta: 1
+                │  ├─ alpha: 1
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 8.63 GFLOP  = 2·M·N·K + M·N = 2·98·14336·3072 + 98·14336
+                   ├─ Bytes: 87.28 MiB  = (bias + A + B + C)·2B = (14336 + 98·3072 + 3072·14336 + 98·14336)·2
+                   ├─ AI: 94.33 FLOP/B
+                   ├─ Achieved: 15.56 TFLOPS
+                   ├─ BW: 153.6 GiB/s
+                   ├─ Peak: 66.8% (memory-bound)
+                   ├─ Roofline time: 370.97 µs/instance, 11.12 ms total
+                   └─ (averaged over 30 instances)
+[GEMM]    aten::addmm  ×300  GPU: 15.62 ms all (3.0%), 52.07 µs/instance (0.0%)  gain@80%: 2.37 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT32x32x64_MI16x16x1_SN_LDSB1_AF...    52.07 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[32, 1024]
+                │  ├─ B [K,N]: bfloat16[1024, 4096]
+                │  ├─ bias: bfloat16[4096]
+                │  ├─ beta: 1
+                │  ├─ alpha: 1
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 268.57 MFLOP  = 2·M·N·K + M·N = 2·32·4096·1024 + 32·4096
+                   ├─ Bytes: 8.32 MiB  = (bias + A + B + C)·2B = (4096 + 32·1024 + 1024·4096 + 32·4096)·2
+                   ├─ AI: 30.78 FLOP/B
+                   ├─ Achieved: 5.18 TFLOPS
+                   ├─ BW: 156.8 GiB/s
+                   ├─ Peak: 68.2% (memory-bound)
+                   ├─ Roofline time: 35.49 µs/instance, 10.60 ms total
+                   └─ (averaged over 300 instances)
+[EW]      aten::add  ×600  GPU: 2.71 ms all (0.5%), 4.51 µs/instance (0.0%)  gain@80%: 2.30 ms
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 8, at::native::gpu_ker...     4.51 µs avg
+                ├─ Cfg
+                │  ├─ arg0: bfloat16[1, 32, 1024]
+                │  ├─ arg1: bfloat16[1, 1, 1024]
+                │  └─ arg2: 1
+                └─ Roofline
+                   ├─ FLOPs: 32.77 KFLOP  = numel(out)
+                   ├─ Bytes: 130.00 KiB  = Σread + write
+                   ├─ AI: 0.25 FLOP/B
+                   ├─ Achieved: 0.01 TFLOPS
+                   ├─ BW: 28.8 GiB/s
+                   ├─ Peak: 12.5% (memory-bound)
+                   ├─ Roofline time: 0.56 µs/instance, 323.42 µs total
+                   └─ (averaged over 600 instances)
+[GEMM]    aten::addmm  ×61  GPU: 8.61 ms all (1.6%), 141.20 µs/instance (0.0%)  gain@80%: 2.29 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT64x96x64_MI16x16x1_SN_LDSB0_AF...   141.20 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[129, 3072]
+                │  ├─ B [K,N]: bfloat16[3072, 3072]
+                │  ├─ bias: bfloat16[3072]
+                │  ├─ beta: 1
+                │  ├─ alpha: 1
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 2.44 GFLOP  = 2·M·N·K + M·N = 2·129·3072·3072 + 129·3072
+                   ├─ Bytes: 19.52 MiB  = (bias + A + B + C)·2B = (3072 + 129·3072 + 3072·3072 + 129·3072)·2
+                   ├─ AI: 118.99 FLOP/B
+                   ├─ Achieved: 17.28 TFLOPS
+                   ├─ BW: 135.2 GiB/s
+                   ├─ Peak: 58.8% (memory-bound)
+                   ├─ Roofline time: 83.01 µs/instance, 5.06 ms total
+                   └─ (averaged over 61 instances)
+[RED]     aten::all  ×300  GPU: 2.23 ms all (0.4%), 7.45 µs/instance (0.0%)  gain@80%: 2.08 ms
+    └─[RED]     void at::native::reduce_kernel<512, 1, at::native::ReduceOp<bool, at::native:...     7.45 µs avg
+                ├─ Cfg
+                │  ├─ arg0: bool[1, 24, 32, 130]
+                │  ├─ arg1: -1
+                │  └─ arg2: True
+                └─ Roofline
+                   ├─ FLOPs: 99.84 KFLOP  = N_in = 99840
+                   ├─ Bytes: 98.25 KiB  = (rd + wr)·1B = (1x24x32x130 + 768)·1  [dim=3]
+                   ├─ AI: 0.99 FLOP/B
+                   ├─ Achieved: 0.01 TFLOPS
+                   ├─ BW: 12.6 GiB/s
+                   ├─ Peak: 5.5% (memory-bound)
+                   ├─ Roofline time: 0.41 µs/instance, 122.22 µs total
+                   └─ (averaged over 300 instances)
+[EW]      aten::mul  ×600  GPU: 2.33 ms all (0.4%), 3.89 µs/instance (0.0%)  gain@80%: 1.93 ms
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 8, at::native::gpu_ker...     3.89 µs avg
+                ├─ Cfg
+                │  ├─ arg0: bfloat16[1, 1, 1024]
+                │  └─ arg1: bfloat16[1, 32, 1024]
+                └─ Roofline
+                   ├─ FLOPs: 32.77 KFLOP  = numel(out)
+                   ├─ Bytes: 130.00 KiB  = Σread + write
+                   ├─ AI: 0.25 FLOP/B
+                   ├─ Achieved: 0.01 TFLOPS
+                   ├─ BW: 32.2 GiB/s
+                   ├─ Peak: 14.0% (memory-bound)
+                   ├─ Roofline time: 0.54 µs/instance, 323.42 µs total
+                   └─ (averaged over 600 instances)
+[RED]     aten::all  ×300  GPU: 2.08 ms all (0.4%), 6.92 µs/instance (0.0%)  gain@80%: 1.93 ms
+    └─[RED]     void at::native::reduce_kernel<512, 1, at::native::ReduceOp<bool, at::native:...     6.92 µs avg
+                ├─ Cfg
+                │  ├─ arg0: bool[1, 24, 32, 129]
+                │  ├─ arg1: -1
+                │  └─ arg2: True
+                └─ Roofline
+                   ├─ FLOPs: 99.07 KFLOP  = N_in = 99072
+                   ├─ Bytes: 97.50 KiB  = (rd + wr)·1B = (1x24x32x129 + 768)·1  [dim=3]
+                   ├─ AI: 0.99 FLOP/B
+                   ├─ Achieved: 0.01 TFLOPS
+                   ├─ BW: 13.5 GiB/s
+                   ├─ Peak: 5.9% (memory-bound)
+                   ├─ Roofline time: 0.41 µs/instance, 121.28 µs total
+                   └─ (averaged over 300 instances)
+[EW]      aten::where  ×300  GPU: 1.65 ms all (0.3%), 5.50 µs/instance (0.0%)  gain@80%: 1.64 ms
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 8, at::native::gpu_ker...     5.50 µs avg
+                ├─ Cfg
+                │  ├─ arg0: bool[32, 130]
+                │  ├─ arg1: bfloat16[]
+                │  └─ arg2: bfloat16[]
+                └─ Roofline
+                   ├─ FLOPs: 4.16 KFLOP  = numel(out)
+                   ├─ Bytes: 8.12 KiB  = Σread + write
+                   ├─ AI: 0.50 FLOP/B
+                   ├─ Achieved: 0.00 TFLOPS
+                   ├─ BW: 1.4 GiB/s
+                   ├─ Peak: 0.6% (memory-bound)
+                   ├─ Roofline time: 0.03 µs/instance, 10.11 µs total
+                   └─ (averaged over 300 instances)
+[EW]      aten::where  ×300  GPU: 1.59 ms all (0.3%), 5.31 µs/instance (0.0%)  gain@80%: 1.58 ms
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 8, at::native::gpu_ker...     5.31 µs avg
+                ├─ Cfg
+                │  ├─ arg0: bool[1, 1, 32, 129]
+                │  ├─ arg1: bfloat16[]
+                │  └─ arg2: bfloat16[]
+                └─ Roofline
+                   ├─ FLOPs: 4.13 KFLOP  = numel(out)
+                   ├─ Bytes: 8.06 KiB  = Σread + write
+                   ├─ AI: 0.50 FLOP/B
+                   ├─ Achieved: 0.00 TFLOPS
+                   ├─ BW: 1.5 GiB/s
+                   ├─ Peak: 0.6% (memory-bound)
+                   ├─ Roofline time: 0.03 µs/instance, 10.03 µs total
+                   └─ (averaged over 300 instances)
+[EW]      aten::mul  ×600  GPU: 1.75 ms all (0.3%), 2.91 µs/instance (0.0%)  gain@80%: 1.34 ms
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 8, at::native::gpu_ker...     2.91 µs avg
+                ├─ Cfg
+                │  ├─ arg0: bfloat16[1, 32, 1024]
+                │  └─ arg1: bfloat16[1, 1, 1024]
+                └─ Roofline
+                   ├─ FLOPs: 32.77 KFLOP  = numel(out)
+                   ├─ Bytes: 130.00 KiB  = Σread + write
+                   ├─ AI: 0.25 FLOP/B
+                   ├─ Achieved: 0.01 TFLOPS
+                   ├─ BW: 46.0 GiB/s
+                   ├─ Peak: 20.0% (memory-bound)
+                   ├─ Roofline time: 0.58 µs/instance, 323.42 µs total
+                   └─ (averaged over 600 instances)
+[GEMM]    aten::addmm  ×300  GPU: 14.57 ms all (2.8%), 48.58 µs/instance (0.0%)  gain@80%: 1.34 ms
+    └─[GEMM]    Cijk_Alik_Bljk_BBS_BH_Bias_HA_S_SAV_UserArgs_MT16x16x64_MI16x16x1_SN_LDSB0_AF...    48.58 µs avg
+                ├─ Cfg
+                │  ├─ A [M,K]: bfloat16[32, 4096]
+                │  ├─ B [K,N]: bfloat16[4096, 1024]
+                │  ├─ bias: bfloat16[1024]
+                │  ├─ beta: 1
+                │  ├─ alpha: 1
+                │  └─ Layout: NT
+                └─ Roofline
+                   ├─ FLOPs: 268.47 MFLOP  = 2·M·N·K + M·N = 2·32·1024·4096 + 32·1024
+                   ├─ Bytes: 8.31 MiB  = (bias + A + B + C)·2B = (1024 + 32·4096 + 4096·1024 + 32·1024)·2
+                   ├─ AI: 30.79 FLOP/B
+                   ├─ Achieved: 5.54 TFLOPS
+                   ├─ BW: 167.6 GiB/s
+                   ├─ Peak: 72.9% (memory-bound)
+                   ├─ Roofline time: 35.41 µs/instance, 10.59 ms total
+                   └─ (averaged over 300 instances)
+[EW]      aten::mul  ×900  GPU: 3.14 ms all (0.6%), 3.49 µs/instance (0.0%)  gain@80%: 1.32 ms
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 8, at::native::gpu_ker...     3.49 µs avg
+                ├─ Cfg
+                │  ├─ arg0: bfloat16[1, 32, 3072]
+                │  └─ arg1: bfloat16[3072]
+                └─ Roofline
+                   ├─ FLOPs: 98.30 KFLOP  = numel(out)
+                   ├─ Bytes: 390.00 KiB  = Σread + write
+                   ├─ AI: 0.25 FLOP/B
+                   ├─ Achieved: 0.03 TFLOPS
+                   ├─ BW: 108.0 GiB/s
+                   ├─ Peak: 47.0% (memory-bound)
+                   ├─ Roofline time: 1.64 µs/instance, 1.46 ms total
+                   └─ (averaged over 900 instances)
+[EW]      aten::add  ×900  GPU: 1.52 ms all (0.3%), 1.69 µs/instance (0.0%)  gain@80%: 626.60 µs
+    └─[EW]      void at::native::vectorized_elementwise_kernel<8, at::native::CUDAFunctor_add...     1.69 µs avg
+                ├─ Cfg
+                │  ├─ arg0: bfloat16[1, 32, 1024]
+                │  ├─ arg1: bfloat16[1, 32, 1024]
+                │  └─ arg2: 1
+                └─ Roofline
+                   ├─ FLOPs: 32.77 KFLOP  = numel(out)
+                   ├─ Bytes: 192.00 KiB  = Σread + write
+                   ├─ AI: 0.17 FLOP/B
+                   ├─ Achieved: 0.02 TFLOPS
+                   ├─ BW: 113.3 GiB/s
+                   ├─ Peak: 49.3% (memory-bound)
+                   ├─ Roofline time: 0.83 µs/instance, 716.50 µs total
+                   └─ (averaged over 900 instances)
+[EW]      aten::mul  ×900  GPU: 2.15 ms all (0.4%), 2.39 µs/instance (0.0%)  gain@80%: 15.59 µs
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 4, at::native::gpu_ker...     2.39 µs avg
+                ├─ Cfg
+                │  ├─ arg0: float[1, 32, 3072]
+                │  └─ arg1: float[1, 32, 1]
+                └─ Roofline
+                   ├─ FLOPs: 98.30 KFLOP  = numel(out)
+                   ├─ Bytes: 768.12 KiB  = Σread + write
+                   ├─ AI: 0.12 FLOP/B
+                   ├─ Achieved: 0.04 TFLOPS
+                   ├─ BW: 312.5 GiB/s
+                   ├─ Peak: 100.0% (memory-bound)  ⚠ nominal 135.9% capped (likely L2/L3 cache hits)
+                   ├─ Roofline time: 2.39 µs/instance, 2.14 ms total
+                   └─ (averaged over 900 instances)
+[EW]      aten::mul  ×600  GPU: 2.36 ms all (0.5%), 3.93 µs/instance (0.0%)  gain@80%: 9.39 µs
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 4, at::native::gpu_ker...     3.93 µs avg
+                ├─ Cfg
+                │  ├─ arg0: c10::complex<double>[1, 32, 24, 64]
+                │  └─ arg1: c10::complex<double>[32, 1, 64]
+                └─ Roofline
+                   ├─ FLOPs: 49.15 KFLOP  = numel(out)
+                   ├─ Bytes: 1.53 MiB  = Σread + write
+                   ├─ AI: 0.03 FLOP/B
+                   ├─ Achieved: 0.01 TFLOPS
+                   ├─ BW: 390.5 GiB/s
+                   ├─ Peak: 100.0% (memory-bound)  ⚠ nominal 169.8% capped (likely L2/L3 cache hits)
+                   ├─ Roofline time: 3.93 µs/instance, 2.35 ms total
+                   └─ (averaged over 600 instances)
+[EW]      aten::mul  ×330  GPU: 1.97 ms all (0.4%), 5.96 µs/instance (0.0%)  gain@80%: 5.17 µs
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 8, at::native::gpu_ker...     5.96 µs avg
+                ├─ Cfg
+                │  ├─ arg0: bfloat16[1, 129, 3072]
+                │  └─ arg1: bfloat16[3072]
+                └─ Roofline
+                   ├─ FLOPs: 396.29 KFLOP  = numel(out)
+                   ├─ Bytes: 1.52 MiB  = Σread + write
+                   ├─ AI: 0.25 FLOP/B
+                   ├─ Achieved: 0.07 TFLOPS
+                   ├─ BW: 249.9 GiB/s
+                   ├─ Peak: 100.0% (memory-bound)  ⚠ nominal 108.7% capped (likely L2/L3 cache hits)
+                   ├─ Roofline time: 5.96 µs/instance, 1.95 ms total
+                   └─ (averaged over 330 instances)
+[RED]     aten::mean  ×330  GPU: 2.31 ms all (0.4%), 7.01 µs/instance (0.0%)  gain@80%: 4.28 µs
+    └─[RED]     void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native...     7.01 µs avg
+                ├─ Cfg
+                │  ├─ arg0: float[1, 129, 3072]
+                │  ├─ arg1: [-1]
+                │  └─ arg2: True
+                └─ Roofline
+                   ├─ FLOPs: 396.29 KFLOP  = N_in = 396288
+                   ├─ Bytes: 1.51 MiB  = (rd + wr)·4B = (1x129x3072 + 129)·4  [dim=2]
+                   ├─ AI: 0.25 FLOP/B
+                   ├─ Achieved: 0.06 TFLOPS
+                   ├─ BW: 211.1 GiB/s
+                   ├─ Peak: 91.8% (memory-bound)
+                   ├─ Roofline time: 6.43 µs/instance, 2.12 ms total
+                   └─ (averaged over 330 instances)
+[CONV]    aten::miopen_convolution  ×4  GPU: 7.06 ms all (1.4%), 1.76 ms/instance (0.3%)  gain@80%: 0.00 µs
+    ├─[DT]      batched_transpose_64x16_pack_4x1_ediv_2x1_half.kd                                  290.63 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[DT]      batched_transpose_32x32_pack_2x2_ediv_1x2_half.kd                                   16.25 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[DT]      batched_transpose_64x32_pack_4x2_ediv_4x2_half.kd                                  100.88 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[CONV]    _ZN2ck16tensor_operation6device12_GLOBAL__N_140kernel_grouped_conv_fwd_wmma_c...     1.32 ms avg
+    │           └─ Cfg
+    │              ├─ input [N,Cin,H,W]: bfloat16[1, 160, 3, 114, 226]
+    │              ├─ weight [Cout,Cin/g,kH,kW]: bfloat16[160, 160, 3, 3, 3]
+    │              ├─ bias: bfloat16[160]
+    │              ├─ padding: [0, 0, 0]
+    │              ├─ stride: [1, 1, 1]
+    │              ├─ dilation: [1, 1, 1]
+    │              ├─ groups: 1
+    │              ├─ deterministic: False
+    │              └─ allow_tf32: False
+    └─[DT]      batched_transpose_32x64_pack_2x4_ediv_2x4_half.kd                                   32.09 µs avg
+                └─ Roofline
+                   └─ memory-bound (data movement)
+[CONV]    aten::miopen_convolution  ×8  GPU: 5.34 ms all (1.0%), 668.02 µs/instance (0.1%)  gain@80%: 0.00 µs
+    ├─[DT]      batched_transpose_32x64_pack_2x4_ediv_2x4_half.kd                                    5.21 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[DT]      batched_transpose_32x64_pack_2x4_ediv_1x2_half.kd                                  164.14 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[DT]      batched_transpose_16x64_pack_1x4_ediv_1x2_half.kd                                    6.14 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[CONV]    _ZN2ck16tensor_operation6device12_GLOBAL__N_140kernel_grouped_conv_fwd_wmma_c...   489.22 µs avg
+    │           └─ Cfg
+    │              ├─ input [N,Cin,H,W]: bfloat16[1, 640, 3, 16, 30]
+    │              ├─ weight [Cout,Cin/g,kH,kW]: bfloat16[640, 640, 3, 3, 3]
+    │              ├─ bias: bfloat16[640]
+    │              ├─ padding: [0, 0, 0]
+    │              ├─ stride: [1, 1, 1]
+    │              ├─ dilation: [1, 1, 1]
+    │              ├─ groups: 1
+    │              ├─ deterministic: False
+    │              └─ allow_tf32: False
+    └─[DT]      batched_transpose_64x16_pack_4x1_ediv_2x1_half.kd                                    3.31 µs avg
+                └─ Roofline
+                   └─ memory-bound (data movement)
+[EW]      aten::copy_  ×600  GPU: 5.34 ms all (1.0%), 8.90 µs/instance (0.0%)  gain@80%: 0.00 µs
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 4, at::native::gpu_ker...     8.90 µs avg
+[CONV]    aten::miopen_convolution  ×3  GPU: 4.91 ms all (0.9%), 1.64 ms/instance (0.3%)  gain@80%: 0.00 µs
+    ├─[DT]      batched_transpose_64x64_pack_4x4_ediv_4x4_half.kd                                   59.56 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[DT]      batched_transpose_32x64_pack_2x4_ediv_1x2_half.kd                                   75.78 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[DT]      batched_transpose_64x64_pack_4x4_ediv_4x4_half.kd                                   55.96 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[CONV]    _ZN2ck16tensor_operation6device12_GLOBAL__N_140kernel_grouped_conv_fwd_wmma_c...     1.43 ms avg
+    │           └─ Cfg
+    │              ├─ input [N,Cin,H,W]: bfloat16[1, 320, 3, 58, 114]
+    │              ├─ weight [Cout,Cin/g,kH,kW]: bfloat16[320, 320, 3, 3, 3]
+    │              ├─ bias: bfloat16[320]
+    │              ├─ padding: [0, 0, 0]
+    │              ├─ stride: [1, 1, 1]
+    │              ├─ dilation: [1, 1, 1]
+    │              ├─ groups: 1
+    │              ├─ deterministic: False
+    │              └─ allow_tf32: False
+    └─[DT]      batched_transpose_64x64_pack_4x4_ediv_4x4_half.kd                                   11.64 µs avg
+                └─ Roofline
+                   └─ memory-bound (data movement)
+[CONV]    aten::miopen_convolution  ×3  GPU: 4.87 ms all (0.9%), 1.62 ms/instance (0.3%)  gain@80%: 0.00 µs
+    ├─[DT]      batched_transpose_16x64_pack_1x4_ediv_1x2_half.kd                                   21.99 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[DT]      batched_transpose_32x64_pack_2x4_ediv_1x2_half.kd                                  198.77 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[DT]      batched_transpose_32x64_pack_2x4_ediv_2x4_half.kd                                   26.89 µs avg
+    │           └─ Roofline
+    │              └─ memory-bound (data movement)
+    ├─[CONV]    _ZN2ck16tensor_operation6device12_GLOBAL__N_140kernel_grouped_conv_fwd_wmma_c...     1.37 ms avg
+    │           └─ Cfg
+    │              ├─ input [N,Cin,H,W]: bfloat16[1, 640, 3, 30, 58]
+    │              ├─ weight [Cout,Cin/g,kH,kW]: bfloat16[640, 640, 3, 3, 3]
+    │              ├─ bias: bfloat16[640]
+    │              ├─ padding: [0, 0, 0]
+    │              ├─ stride: [1, 1, 1]
+    │              ├─ dilation: [1, 1, 1]
+    │              ├─ groups: 1
+    │              ├─ deterministic: False
+    │              └─ allow_tf32: False
+    └─[DT]      batched_transpose_64x32_pack_4x2_ediv_4x2_half.kd                                    5.80 µs avg
+                └─ Roofline
+                   └─ memory-bound (data movement)
+[EW]      aten::copy_  ×600  GPU: 4.21 ms all (0.8%), 7.02 µs/instance (0.0%)  gain@80%: 0.00 µs
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 4, at::native::gpu_ker...     7.02 µs avg
+[EW]      aten::copy_  ×600  GPU: 3.58 ms all (0.7%), 5.96 µs/instance (0.0%)  gain@80%: 0.00 µs
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 8, at::native::gpu_ker...     5.96 µs avg
+[EW]      aten::mul  ×330  GPU: 1.89 ms all (0.4%), 5.73 µs/instance (0.0%)  gain@80%: 0.00 µs
+    └─[EW]      void at::native::elementwise_kernel_manual_unroll<128, 4, at::native::gpu_ker...     5.73 µs avg
+                ├─ Cfg
+                │  ├─ arg0: float[1, 129, 3072]
+                │  └─ arg1: float[1, 129, 1]
+                └─ Roofline
+                   ├─ FLOPs: 396.29 KFLOP  = numel(out)
+                   ├─ Bytes: 3.02 MiB  = Σread + write
+                   ├─ AI: 0.12 FLOP/B
+                   ├─ Achieved: 0.07 TFLOPS
+                   ├─ BW: 517.0 GiB/s
+                   ├─ Peak: 100.0% (memory-bound)  ⚠ nominal 224.8% capped (likely L2/L3 cache hits)
+                   ├─ Roofline time: 5.73 µs/instance, 1.89 ms total
+                   └─ (averaged over 330 instances)
+--- 38 unique ops (14678 instances), 14750 GPU dispatches ---

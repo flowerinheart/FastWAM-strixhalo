@@ -1,0 +1,25 @@
+[
+  [
+    "/home/haojiema/miniconda3/envs/rocm-nightly/bin/python",
+    "/home/haojiema/code/rocm/rocm-scripts/tools/roofline_trace.py",
+    "--trace",
+    "/home/haojiema/code/amd_robot/models/FastWAM/benchmark_results/profiler/fastwam.trace.json",
+    "--gpu",
+    "gfx1151",
+    "--end-to-end-ms",
+    "603.1475939671509"
+  ],
+  [
+    "/home/haojiema/miniconda3/envs/rocm-nightly/bin/python",
+    "/home/haojiema/code/rocm/rocm-scripts/tools/roofline_trace.py",
+    "--trace",
+    "/home/haojiema/code/amd_robot/models/FastWAM/benchmark_results/profiler/fastwam.trace.json",
+    "--gpu",
+    "gfx1151",
+    "--end-to-end-ms",
+    "603.1475939671509",
+    "--report-by-op",
+    "--emit-meta",
+    "/home/haojiema/code/amd_robot/models/FastWAM/benchmark_results/profiler/roofline_filters.json"
+  ]
+]

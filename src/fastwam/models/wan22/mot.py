@@ -138,12 +138,14 @@ class MoT(nn.Module):
         gate_mlp: torch.Tensor,
         context: torch.Tensor,
         context_mask: torch.Tensor,
+        context_kv=None,
     ) -> torch.Tensor:
         x = block.gate(residual_x, gate_msa, block.self_attn.o(mixed_attn_out))
         x = x + block.cross_attn(
             block.norm3(x),
             context,
             ctx_mask=context_mask.unsqueeze(1),
+            context_kv=context_kv,
         )
         mlp_input = modulate(block.norm2(x), shift_mlp, scale_mlp)
         return block.gate(x, gate_mlp, block.ffn(mlp_input))
@@ -535,6 +537,7 @@ class MoT(nn.Module):
         video_cache_k: list[torch.Tensor],
         video_cache_v: list[torch.Tensor],
         action_attention_mask: torch.Tensor,
+        action_context_kv=None,
     ) -> torch.Tensor:
         expert = self.mixtures["action"]
         x = action_tokens
@@ -574,6 +577,7 @@ class MoT(nn.Module):
                 gate_mlp=gate_mlp,
                 context=action_context,
                 context_mask=action_context_mask,
+                context_kv=None if action_context_kv is None else action_context_kv[layer_idx],
             )
         return x
 

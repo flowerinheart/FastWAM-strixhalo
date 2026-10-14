@@ -1,0 +1,69 @@
+GPU: Radeon 8060S (Strix Halo) (gfx1151) [--gpu override]
+Warning: 67.3% of total GPU time (243.78 ms) matched the filter but has no roofline data (no shapes).
+Note: 686 kernels exceeded 100% of peak (Winograd / L2 cache); capped at 100% for the summary.
+End-to-end latency: 412.80 ms (unprofiled run)
+  GPU time: 362.29 ms (87.8%)
+  Host (non-GPU): 50.51 ms (12.2%)
+
+Total GPU time: 362.29 ms
+  Analyzed: 102.23 ms (28.2%)
+  Excluded (other kinds): 16.28 ms (4.5%)
+    Reclaimable (add to --kinds): 14.79 ms (4.1%)
+      DT             14.79 ms  (4.1%)
+    No-roofline debt: 1.49 ms (0.4%)
+      UNK             1.49 ms  (0.4%)  [244 kernels]
+
+  Kind                     Dispatches    GPU time  % total  % of peak
+  -----------------------  ----------  ----------  -------  ---------
+  GEMM                           4350   282.59 ms    78.0%      46.9%
+  ├─ compute                        5   359.66 µs     0.1%      34.4%
+  ├─ memory                       284    91.18 ms    25.2%      46.9%
+  └─ no shapes                   4061   191.04 ms    52.7%         --
+  CONV                             24    19.38 ms     5.4%      56.7%
+  ├─ compute                        2   237.23 µs     0.1%      56.7%
+  └─ no shapes                     22    19.15 ms     5.3%         --
+  EW                             5268    31.69 ms     8.7%      87.4%
+  ├─ memory                      1419     9.22 ms     2.5%      87.4%
+  └─ no shapes                   3849    22.47 ms     6.2%         --
+  RED                            2769    12.35 ms     3.4%      68.5%
+  ├─ memory                       107     1.24 ms     0.3%      68.5%
+  └─ no shapes                   2662    11.12 ms     3.1%         --
+  -----------------------  ----------  ----------  -------  ---------
+  TOTAL                         12411   346.01 ms    95.5%      50.8%
+  Roofline analyzed              1817    51.96 ms              100.0%
+  Roofline GPU                          312.01 ms               86.1%  of GPU time
+  Roofline end-to-end                   362.52 ms               87.8%  of end-to-end latency
+  Target end-to-end (80%)               375.51 ms
+
+  GPU: Radeon 8060S (Strix Halo) (gfx1151)
+  % total   = GPU time / total GPU time (all kernels, 362.29 ms)
+  Roofline analyzed       = analyzed GPU time if every analyzed kernel ran at its binding ceiling
+  Roofline GPU            = Roofline analyzed + Excluded (other kinds) + analyzed-kind kernels w/o shape data
+  Roofline end-to-end     = Roofline GPU + host (non-GPU) time = end-to-end latency (412.80 ms,
+                            unprofiled run) - total GPU time, added on top
+  Target end-to-end (80%) = Roofline analyzed / 0.8 + Excluded (other kinds) + analyzed-kind kernels w/o shape data + host (non-GPU) time
+                            (only analyzed GPU work with shape metadata is held to 80% of peak; the rest is irreducible)
+  trailing % on the Roofline GPU / Roofline end-to-end rows = % of peak: how close the
+              current GPU time / end-to-end latency is to that roofline (100% = at the roofline)
+  % of peak = time-weighted avg of per-kernel roofline efficiency
+              compute-bound: achieved TFLOPS / peak TFLOPS
+                FP32:        14.8 TFLOPS (FMA)
+                FP16/BF16:   43 TFLOPS (WMMA) for GEMM/MOEGEMM/CONV/ATTN, 29.7 TFLOPS (packed) otherwise
+              memory-bound:  achieved BW / peak BW (230.0 GiB/s read, 216.0 GiB/s copy)
+
+Optimization hints:
+  ⚠ torch.compile coverage: 63.4% inside compiled regions, 36.6% (132.63 ms) runs eager
+      A large slice runs outside compiled regions. For fullgraph models this
+      is often a torch.compile fallback (Dynamo recompile-limit hit; cf. PR #612)
+      — check recompile_limit / fullgraph. For vLLM, attention & sampler run
+      eager by design; confirm the ops below are expected. Largest eager ops:
+      [GEMM]    aten::mm                                                        76.63 ms  (168 kernels)
+      [CONV]    aten::miopen_convolution                                        25.17 ms  (129 kernels)
+      [GEMM]    aten::addmm                                                     12.97 ms  (68 kernels)
+  ⚠ cudagraph coverage: 61.0% of visible GPU time in-graph, 39.0% (141.32 ms) dispatched eager
+      Kernels dispatched outside the cudagraph pay per-launch host overhead.
+      (In-graph time is a floor — the profiler cannot see kernels captured
+      inside a graph on ROCm.) Largest out-of-graph ops:
+      [GEMM]    aten::mm                                                        76.63 ms  (168 kernels)
+      [CONV]    aten::miopen_convolution                                        25.17 ms  (129 kernels)
+      [DT]      aten::copy_                                                     13.96 ms  (1722 kernels)

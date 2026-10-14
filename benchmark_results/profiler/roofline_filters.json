@@ -1,0 +1,14 @@
+{
+  "kinds": [
+    "GEMM",
+    "MOEGEMM",
+    "CONV",
+    "ATTN",
+    "DEFORM_ATTN",
+    "EW",
+    "RED"
+  ],
+  "bound": null,
+  "min_pct": 0.3,
+  "sort_by_gain": 80.0
+}

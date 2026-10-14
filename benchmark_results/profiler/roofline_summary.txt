@@ -1,0 +1,55 @@
+GPU: Radeon 8060S (Strix Halo) (gfx1151) [--gpu override]
+Warning: 7.8% of total GPU time (40.78 ms) matched the filter but has no roofline data (no shapes).
+Note: 7868 kernels exceeded 100% of peak (Winograd / L2 cache); capped at 100% for the summary.
+End-to-end latency: 603.15 ms (unprofiled run)
+  GPU time: 522.19 ms (86.6%)
+  Host (non-GPU): 80.95 ms (13.4%)
+
+Total GPU time: 522.19 ms
+  Analyzed: 454.44 ms (87.0%)
+  Excluded (other kinds): 26.98 ms (5.2%)
+    Reclaimable (add to --kinds): 5.50 ms (1.1%)
+      DT              5.50 ms  (1.1%)
+    No-roofline debt: 21.48 ms (4.1%)
+      UNK            21.48 ms  (4.1%)  [7414 kernels]
+
+  Kind                     Dispatches    GPU time  % total  % of peak
+  -----------------------  ----------  ----------  -------  ---------
+  GEMM                           4921   380.60 ms    72.9%      48.4%
+  ├─ compute                        5   370.46 µs     0.1%      33.4%
+  ├─ memory                      4912   380.11 ms    72.8%      48.4%
+  └─ no shapes                      4   115.55 µs     0.0%         --
+  CONV                             24    20.02 ms     3.8%      50.0%
+  ├─ compute                        2   269.11 µs     0.1%      50.0%
+  └─ no shapes                     22    19.75 ms     3.8%         --
+  EW                            22026    79.12 ms    15.2%      64.8%
+  ├─ memory                     17848    58.22 ms    11.1%      64.8%
+  └─ no shapes                   4178    20.91 ms     4.0%         --
+  RED                            2057    15.47 ms     3.0%      32.1%
+  └─ memory                      2057    15.47 ms     3.0%      32.1%
+  -----------------------  ----------  ----------  -------  ---------
+  TOTAL                         29028   495.21 ms    94.8%      50.0%
+  Roofline analyzed             24824   227.07 ms              100.0%
+  Roofline GPU                          294.83 ms               56.5%  of GPU time
+  Roofline end-to-end                   375.78 ms               62.3%  of end-to-end latency
+  Target end-to-end (80%)               432.55 ms
+
+  GPU: Radeon 8060S (Strix Halo) (gfx1151)
+  % total   = GPU time / total GPU time (all kernels, 522.19 ms)
+  Roofline analyzed       = analyzed GPU time if every analyzed kernel ran at its binding ceiling
+  Roofline GPU            = Roofline analyzed + Excluded (other kinds) + analyzed-kind kernels w/o shape data
+  Roofline end-to-end     = Roofline GPU + host (non-GPU) time = end-to-end latency (603.15 ms,
+                            unprofiled run) - total GPU time, added on top
+  Target end-to-end (80%) = Roofline analyzed / 0.8 + Excluded (other kinds) + analyzed-kind kernels w/o shape data + host (non-GPU) time
+                            (only analyzed GPU work with shape metadata is held to 80% of peak; the rest is irreducible)
+  trailing % on the Roofline GPU / Roofline end-to-end rows = % of peak: how close the
+              current GPU time / end-to-end latency is to that roofline (100% = at the roofline)
+  % of peak = time-weighted avg of per-kernel roofline efficiency
+              compute-bound: achieved TFLOPS / peak TFLOPS
+                FP32:        14.8 TFLOPS (FMA)
+                FP16/BF16:   43 TFLOPS (WMMA) for GEMM/MOEGEMM/CONV/ATTN, 29.7 TFLOPS (packed) otherwise
+              memory-bound:  achieved BW / peak BW (230.0 GiB/s read, 216.0 GiB/s copy)
+
+Optimization hints:
+  ℹ torch.compile: no compiled regions in trace (model not compiled, or trace predates region annotations)
+  ℹ cudagraph: no graph replays (collected with cudagraphs disabled; check skipped)

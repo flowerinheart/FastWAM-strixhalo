@@ -315,13 +315,14 @@ class ActionDiT(nn.Module):
         timestep: torch.Tensor,
         context: torch.Tensor,
         context_mask: torch.Tensor,
+        prepared_context: Optional[torch.Tensor] = None,
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         """Prepare tensor inputs for the compile-friendly DiT/MoT core."""
         seq_len = action_tokens.shape[1]
         t = self.time_embedding(sinusoidal_embedding_1d(self.freq_dim, timestep))
         t_mod = self.time_projection(t).unflatten(1, (6, self.hidden_dim))
         tokens = self.action_encoder(action_tokens)
-        context_emb = self.text_embedding(context)
+        context_emb = self.text_embedding(context) if prepared_context is None else prepared_context
         context_attn_mask = context_mask.unsqueeze(1).expand(-1, seq_len, -1)
         freqs = self.get_freqs(seq_len)
         return tokens, t, t_mod, context_emb, context_attn_mask, freqs
